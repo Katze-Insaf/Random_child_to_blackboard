@@ -1,3 +1,5 @@
+import os.path
+
 import cv2
 import numpy as np
 import random
@@ -21,11 +23,11 @@ def draw_faces(img, faces):
     for i in faces:
         cv2.rectangle(img, [i[0], i[1]], [i[0]+i[2], i[1]+i[2]], [0, 0, 255], 2)
 
-def random_face_selection(faces):
+def random_face_selection(img, faces):
     # print(faces)
     face = random.choice(faces)
     # print(face)
-    image = img[face[0]:face[0]+face[2], face[1]:face[1]:face[3]]
+    image = img[face[1]:face[1]+face[3], face[0]:face[0]+face[2]]
     return image
 
 if __name__ == "__main__":
@@ -35,7 +37,9 @@ if __name__ == "__main__":
         if not faces is None:
             draw_faces(img, faces)
             if len(faces) >= 1:
-                img = random_face_selection(faces)
+                image = random_face_selection(img, faces)
+                print(image)
+                cv2.imwrite(os.path.join(r"C:/Users/Katze/PycharmProjects/Random_child_to_blackboard/", "face.png"), image)
                 # cv2.imshow(K, face_image)
         cv2.imshow("Kakaha", img)
         if cv2.waitKey(1) == 27:
