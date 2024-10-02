@@ -5,12 +5,12 @@ import numpy as np
 import random
 
 cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-cap = cv2.VideoCapture("http://192.168.0.100:8080/video")
+# cap = cv2.VideoCapture("http://192.168.0.100:8080/video")
 
-resolution = (480, 320)
+resolution = (1080, 720)
 
-def get_frame_from_phone():
-    return cv2.resize(cap.read()[1], resolution)
+def get_frame_from_phone(IP):
+    return cv2.resize(cv2.VideoCapture(IP).read()[1], resolution)
 
 def get_faces(img):
     try:
@@ -30,14 +30,15 @@ def random_face_selection(img, faces):
     image = img[face[1]:face[1]+face[3], face[0]:face[0]+face[2]]
     return image
 
-def DetectFaces():
-    img = get_frame_from_phone()
+def DetectFaces(IP):
+    img = get_frame_from_phone(IP)
     faces = get_faces(img)
     if not faces is None:
         draw_faces(img, faces)
         if len(faces) >= 1:
             image = random_face_selection(img, faces)
-    return img, image
+            return img, image
+    return img, None
 
 if __name__ == "__main__":
     while True:
