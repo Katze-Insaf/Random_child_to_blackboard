@@ -30,6 +30,15 @@ def random_face_selection(img, faces):
     image = img[face[1]:face[1]+face[3], face[0]:face[0]+face[2]]
     return image
 
+def DetectFaces():
+    img = get_frame_from_phone()
+    faces = get_faces(img)
+    if not faces is None:
+        draw_faces(img, faces)
+        if len(faces) >= 1:
+            image = random_face_selection(img, faces)
+    return img, image
+
 if __name__ == "__main__":
     while True:
         img = get_frame_from_phone()
