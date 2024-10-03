@@ -38,37 +38,67 @@ def add_transparent_image(background, foreground, x_offset=None, y_offset=None):
     # return composite
 
 start_button = cv2.resize(cv2.cvtColor(cv2.imread("Start.png"), cv2.COLOR_RGB2RGBA), (400, 128))
-face = cv2.imread("face.png")
+# face = cv2.imread("face.png")
 
-def GettingBrawler(face, text, video, timing, size, offset):
+def GettingBrawler(face, text, video, size_of_video, timing, size, offset):
     video = cv2.VideoCapture(video)
+    fps = video.get(cv2.CAP_PROP_FPS)
+    frames_count = video.get(cv2.CAP_PROP_FRAME_COUNT)
     t = time.time()
     show = False
+    # _, frame = video.read()
+    i = 0
     while True:
-        _, frame = video.read()
-        if _:
+        i += 1
+        video.set(cv2.CAP_PROP_POS_FRAMES, i)
+        if i < frames_count:
+            _, frame = video.read()
+            frame = cv2.resize(frame, size_of_video)
             if show:
+
                 print('OK')
                 add_transparent_image(frame, cv2.resize(cv2.cvtColor(face, cv2.COLOR_RGB2RGBA), (size, size)),
                                       offset[0], offset[1])
+                cv2.rectangle(frame, (offset[0] + size, offset[0] + int(size / 3)),
+                              (offset[0] + size * 2, offset[0] + int(size / 3 * 2)),
+                              (255, 0, 0), -size)
+                cv2.putText(frame, text, (offset[0] + size + 30, offset[0] + int(size / 3 * 1.5)),
+                            cv2.FONT_HERSHEY_COMPLEX, 2, (255, 255, 255), 2)
             cv2.imshow("Kakaxa", frame)
             # print(time.time() - t)
             if time.time() - t >= timing:
                 show = True
-
             if cv2.waitKey(1) == 27:
                 break
-            elif cv2.waitKey(1) == ord('t'):
-                time.sleep(2)
+            time.sleep(1/fps)
+            # elif cv2.waitKey(1) == ord('t'):
+            #     time.sleep(2)
+        else:
+            video.set(cv2.CAP_PROP_POS_FRAMES, frames_count - 1)
+            _, frame = video.read()
+            frame = cv2.resize(frame, size_of_video)
+            add_transparent_image(frame, cv2.resize(cv2.cvtColor(face, cv2.COLOR_RGB2RGBA), (size, size)),
+                                  offset[0], offset[1])
+            cv2.rectangle(frame, (offset[0] + size, offset[0] + int(size / 3)),
+                          (offset[0] + size * 2, offset[0] + int(size / 3 * 2)),
+                          (255, 0, 0), -size)
+            cv2.putText(frame, text, (offset[0] + size + 30, offset[0] + int(size / 3 * 1.5)),
+                        cv2.FONT_HERSHEY_COMPLEX, 2, (255, 255, 255), 2)
+            cv2.imshow("Kakaxa", frame)
+            if cv2.waitKey(1) == 27:
+                break
+
 
 
 
 while True:
     image, face_image = Camera.DetectFaces("http://192.168.0.102:8080/video")
+    # image, face_image = Camera.DetectFaces(0)
     # add_transparent_image(image, start_button, 340, 560)
     cv2.imshow("Kakaxa", image)
     if cv2.waitKey(1) == 27:
         break
-    elif cv2.waitKey(1) == ord("a"):
-        GettingBrawler(face_image, "хахаха лох","МЕНЯ ЗАДОЛБАЛА ЭТА ПЕСНЯ #Снежа.mp4", 1, 256, (250, 540))
+    elif cv2.waitKey(1) == ord("e"):
+        GettingBrawler(face_image, "хахаха лох","C:/Users/Katze/PycharmProjects/Random_child_to_blackboard/videos/ElementaryOddFlickertailsquirrel-size_restricted.gif",
+                       (1080, 720), 3, 480, (100, 100))
 cv2.destroyAllWindows()

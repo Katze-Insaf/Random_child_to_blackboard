@@ -1,10 +1,10 @@
 import os.path
-
 import cv2
 import numpy as np
 import random
 
 cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+# cascade = cv2.CascadeClassifier()
 # cap = cv2.VideoCapture("http://192.168.0.100:8080/video")
 
 resolution = (1080, 720)
