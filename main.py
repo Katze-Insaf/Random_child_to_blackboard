@@ -1,6 +1,6 @@
 # import pygame
+import random
 import time
-
 import Camera
 import sys
 import cv2
@@ -38,6 +38,11 @@ def add_transparent_image(background, foreground, x_offset=None, y_offset=None):
     # return composite
 
 start_button = cv2.resize(cv2.cvtColor(cv2.imread("Start.png"), cv2.COLOR_RGB2RGBA), (400, 128))
+
+phrases = ["че сидим?", "хахаха, бот", "не повезло, не повезло", "лашара",
+           "каков второй закон Ньютона?", "ЪУЪ", "Че делать будем?",
+           "Станцуй лисгинку", "Сделай сигму", "Лучше бы не пришел в школу...",
+           "Скока до звонка осталось?", "А че какой следующий урок"]
 # face = cv2.imread("face.png")
 
 def GettingBrawler(face, text, video, size_of_video, timing, size, offset):
@@ -55,15 +60,14 @@ def GettingBrawler(face, text, video, size_of_video, timing, size, offset):
             _, frame = video.read()
             frame = cv2.resize(frame, size_of_video)
             if show:
-
-                print('OK')
+                # print('OK')
                 add_transparent_image(frame, cv2.resize(cv2.cvtColor(face, cv2.COLOR_RGB2RGBA), (size, size)),
                                       offset[0], offset[1])
-                cv2.rectangle(frame, (offset[0] + size, offset[0] + int(size / 3)),
-                              (offset[0] + size * 2, offset[0] + int(size / 3 * 2)),
+                cv2.rectangle(frame, (offset[0] + size, offset[0] + int(size / 5)),
+                              (offset[0] + size * 2, offset[0] + int(size / 5 * 4)),
                               (255, 0, 0), -size)
                 cv2.putText(frame, text, (offset[0] + size + 30, offset[0] + int(size / 3 * 1.5)),
-                            cv2.FONT_HERSHEY_COMPLEX, 2, (255, 255, 255), 2)
+                            cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
             cv2.imshow("Kakaxa", frame)
             # print(time.time() - t)
             if time.time() - t >= timing:
@@ -79,26 +83,28 @@ def GettingBrawler(face, text, video, size_of_video, timing, size, offset):
             frame = cv2.resize(frame, size_of_video)
             add_transparent_image(frame, cv2.resize(cv2.cvtColor(face, cv2.COLOR_RGB2RGBA), (size, size)),
                                   offset[0], offset[1])
-            cv2.rectangle(frame, (offset[0] + size, offset[0] + int(size / 3)),
-                          (offset[0] + size * 2, offset[0] + int(size / 3 * 2)),
+            cv2.rectangle(frame, (offset[0] + size, offset[0] + int(size / 5)),
+                          (offset[0] + size * 2, offset[0] + int(size / 5 * 4)),
                           (255, 0, 0), -size)
             cv2.putText(frame, text, (offset[0] + size + 30, offset[0] + int(size / 3 * 1.5)),
-                        cv2.FONT_HERSHEY_COMPLEX, 2, (255, 255, 255), 2)
+                        cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
             cv2.imshow("Kakaxa", frame)
             if cv2.waitKey(1) == 27:
                 break
 
 
 
+cap = cv2.VideoCapture(0)
 
 while True:
-    image, face_image = Camera.DetectFaces("http://192.168.0.102:8080/video")
-    # image, face_image = Camera.DetectFaces(0)
+    # image, face_image = Camera.DetectFaces("http://192.168.0.100:8080/video")
+    _, image = cap.read()
     # add_transparent_image(image, start_button, 340, 560)
     cv2.imshow("Kakaxa", image)
     if cv2.waitKey(1) == 27:
         break
     elif cv2.waitKey(1) == ord("e"):
-        GettingBrawler(face_image, "хахаха лох","C:/Users/Katze/PycharmProjects/Random_child_to_blackboard/videos/ElementaryOddFlickertailsquirrel-size_restricted.gif",
-                       (1080, 720), 3, 480, (100, 100))
+        image, face_image = Camera.DetectFaces(image)
+        GettingBrawler(face_image, random.choices(phrases)[0],"C:/Users/minex/IdeaProjects/Random_child_to_blackboard/videos/ElementaryOddFlickertailsquirrel-size_restricted.gif",
+                       (1080, 720), 3.25, 480, (100, 100))
 cv2.destroyAllWindows()

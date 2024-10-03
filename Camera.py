@@ -27,16 +27,15 @@ def random_face_selection(img, faces):
     # print(faces)
     face = random.choice(faces)
     # print(face)
-    image = img[face[1]:face[1]+face[3], face[0]:face[0]+face[2]]
+    image = img[face[1] - 10:face[1] + face[3] + 10, face[0] - 10:face[0] + face[2] + 10]
     return image
 
-def DetectFaces(IP):
-    img = get_frame_from_phone(IP)
+def DetectFaces(img):
     faces = get_faces(img)
     if not faces is None:
-        draw_faces(img, faces)
         if len(faces) >= 1:
-            image = random_face_selection(img, faces)
+            image = random_face_selection(img.copy(), faces)
+            draw_faces(img, faces)
             return img, image
     return img, None
 
@@ -47,7 +46,7 @@ if __name__ == "__main__":
         if not faces is None:
             draw_faces(img, faces)
             if len(faces) >= 1:
-                image = random_face_selection(img, faces)
+                image = random_face_selection(cv2.resize(img, resolution), faces)
                 print(image)
                 cv2.imwrite(os.path.join(r"C:/Users/Katze/PycharmProjects/Random_child_to_blackboard/", "face.png"), image)
                 # cv2.imshow(K, face_image)
