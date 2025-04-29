@@ -61,8 +61,6 @@ def GettingBrawler(face, text, video, size_of_video, timing, size, offset):
             _, frame = video.read()
             frame = cv2.resize(frame, size_of_video)
             if show:
-
-                print('OK')
                 add_transparent_image(frame, cv2.resize(cv2.cvtColor(face, cv2.COLOR_RGB2RGBA), (size, size)),
                                       offset[0], offset[1])
                 cv2.rectangle(frame, (offset[0] + size, offset[0] + int(size / 3)),
