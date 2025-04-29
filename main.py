@@ -1,6 +1,7 @@
 # import pygame
 import random
 import time
+
 import Camera
 import sys
 import cv2
@@ -60,14 +61,15 @@ def GettingBrawler(face, text, video, size_of_video, timing, size, offset):
             _, frame = video.read()
             frame = cv2.resize(frame, size_of_video)
             if show:
-                # print('OK')
+
+                print('OK')
                 add_transparent_image(frame, cv2.resize(cv2.cvtColor(face, cv2.COLOR_RGB2RGBA), (size, size)),
                                       offset[0], offset[1])
-                cv2.rectangle(frame, (offset[0] + size, offset[0] + int(size / 5)),
-                              (offset[0] + size * 2, offset[0] + int(size / 5 * 4)),
+                cv2.rectangle(frame, (offset[0] + size, offset[0] + int(size / 3)),
+                              (offset[0] + size * 2, offset[0] + int(size / 3 * 2)),
                               (255, 0, 0), -size)
                 cv2.putText(frame, text, (offset[0] + size + 30, offset[0] + int(size / 3 * 1.5)),
-                            cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
+                            cv2.FONT_HERSHEY_COMPLEX, 2, (255, 255, 255), 2)
             cv2.imshow("Kakaxa", frame)
             # print(time.time() - t)
             if time.time() - t >= timing:
@@ -83,11 +85,11 @@ def GettingBrawler(face, text, video, size_of_video, timing, size, offset):
             frame = cv2.resize(frame, size_of_video)
             add_transparent_image(frame, cv2.resize(cv2.cvtColor(face, cv2.COLOR_RGB2RGBA), (size, size)),
                                   offset[0], offset[1])
-            cv2.rectangle(frame, (offset[0] + size, offset[0] + int(size / 5)),
-                          (offset[0] + size * 2, offset[0] + int(size / 5 * 4)),
+            cv2.rectangle(frame, (offset[0] + size, offset[0] + int(size / 3)),
+                          (offset[0] + size * 2, offset[0] + int(size / 3 * 2)),
                           (255, 0, 0), -size)
             cv2.putText(frame, text, (offset[0] + size + 30, offset[0] + int(size / 3 * 1.5)),
-                        cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
+                        cv2.FONT_HERSHEY_COMPLEX, 2, (255, 255, 255), 2)
             cv2.imshow("Kakaxa", frame)
             if cv2.waitKey(1) == 27:
                 break
@@ -105,6 +107,6 @@ while True:
         break
     elif cv2.waitKey(1) == ord("e"):
         image, face_image = Camera.DetectFaces(image)
-        GettingBrawler(face_image, random.choices(phrases)[0],"C:/Users/minex/IdeaProjects/Random_child_to_blackboard/videos/ElementaryOddFlickertailsquirrel-size_restricted.gif",
+        GettingBrawler(face_image, random.choices(phrases)[0],"/videos/ElementaryOddFlickertailsquirrel-size_restricted.gif",
                        (1080, 720), 3.25, 480, (100, 100))
 cv2.destroyAllWindows()
