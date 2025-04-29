@@ -107,6 +107,6 @@ while True:
         break
     elif cv2.waitKey(1) == ord("e"):
         image, face_image = Camera.DetectFaces(image)
-        GettingBrawler(face_image, random.choices(phrases)[0],"/videos/ElementaryOddFlickertailsquirrel-size_restricted.gif",
+        GettingBrawler(face_image, random.choices(phrases)[0],"./videos/ElementaryOddFlickertailsquirrel-size_restricted.gif",
                        (1080, 720), 3.25, 480, (100, 100))
 cv2.destroyAllWindows()
